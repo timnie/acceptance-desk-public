@@ -95,6 +95,11 @@ uv run --locked acceptance-desk examples/original.txt examples/revised.txt --bri
 
 运行 `uv run --locked --group dev --extra web pytest -q` 执行开发测试。CI 覆盖 Python 3.10 和 3.12。可选的离线语义功能见[模型配置](experiments/step1_models.md)。
 
+## 贡献者
+
+- [timnie](https://github.com/timnie)
+- [Nah1zuj](https://github.com/Nah1zuj)
+
 ## 许可证
 
 项目源码采用 [MIT 许可证](LICENSE)。

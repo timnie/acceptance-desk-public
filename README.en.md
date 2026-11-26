@@ -95,6 +95,11 @@ Report problems in [GitHub Issues](https://github.com/timnie/acceptance-desk-pub
 
 Run `uv run --locked --group dev --extra web pytest -q` for the development test suite. CI covers Python 3.10 and 3.12. For optional offline semantic features, see [model setup](experiments/step1_models.md).
 
+## Contributors
+
+- [timnie](https://github.com/timnie)
+- [Nah1zuj](https://github.com/Nah1zuj)
+
 ## License
 
 The project source is available under the [MIT License](LICENSE).
