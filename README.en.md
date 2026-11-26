@@ -3,9 +3,11 @@
 <p align="center">Review AI edits to Chinese manuscripts, with the original text and your decisions in view.</p>
 
 <p align="center">
-  <a href="#quick-start">Quick start</a>
+  <strong><a href="#install">Install</a></strong>
+  · <a href="#quick-start">Quick start</a>
   · <a href="#run-from-source">Run from source</a>
   · <a href="docs/workbench.md">Workbench guide</a>
+  · <a href="https://github.com/timnie/acceptance-desk-public/releases">Releases</a>
   · <a href="README.md">简体中文</a>
 </p>
 
@@ -23,6 +25,34 @@
 - **Compare drafts in context.** Review additions, deletions, and rewrites side by side. Check changes to numbers, citations, and wording.
 - **Decide on each edit.** Accept the revision, keep the original, or edit it yourself. Undo decisions, leave notes, and save your place.
 - **Carry feedback into the next draft.** Export the final text, review record, and feedback. The desktop preview can also send the manuscript and feedback to a model you choose after you review the request.
+
+## Install
+
+### macOS · Apple silicon
+
+Install with [Homebrew](https://brew.sh/).
+
+```bash
+brew tap timnie/acceptance-desk-public https://github.com/timnie/acceptance-desk-public.git
+brew install --cask timnie/acceptance-desk-public/acceptance-desk
+```
+
+You can also [download Build 10 (ZIP)](https://github.com/timnie/acceptance-desk-public/releases/download/macos-beta-build-10-zip/Acceptance-Desk-macOS-arm64-Build-10.zip), unzip it, and move the app to Applications. The preview is not notarized. macOS may ask you to approve it in [Privacy & Security](https://support.apple.com/en-us/102445) on first launch.
+
+### Windows · x64
+
+Install with [Scoop](https://scoop.sh/).
+
+```powershell
+scoop bucket add acceptance-desk https://github.com/timnie/acceptance-desk-public.git
+scoop install acceptance-desk/acceptance-desk
+```
+
+You can also [download the unsigned preview installer (EXE)](https://github.com/timnie/acceptance-desk-public/releases/download/windows-beta-20261125-layout-fix/Acceptance-Desk-Windows-x64-Setup-2026-11-25-layout-fix.exe).
+
+### Linux
+
+[Run the workbench from source](#run-from-source) and open it in your browser, or use the [command line](#command-line).
 
 ## Quick start
 
@@ -59,8 +89,12 @@ uv run --locked acceptance-desk examples/original.txt examples/revised.txt --bri
 
 ## Feedback and development
 
-When reporting a problem, include the platform, build number, and steps to reproduce it with a fictional manuscript.
+Report problems in [GitHub Issues](https://github.com/timnie/acceptance-desk-public/issues) with your platform, build number, and steps to reproduce using a fictional manuscript. See the [contributing guide](CONTRIBUTING.md) for code changes.
 
 [Report schema](docs/schema.md) · [Export formats](docs/export.md) · [Local MCP integration](docs/mcp.md) · [CI and packaging](docs/ci.md) · [Documentation](docs/README.md)
 
 Run `uv run --locked --group dev --extra web pytest -q` for the development test suite. CI covers Python 3.10 and 3.12. For optional offline semantic features, see [model setup](experiments/step1_models.md).
+
+## License
+
+The project source is available under the [MIT License](LICENSE).

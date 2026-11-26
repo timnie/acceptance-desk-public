@@ -3,9 +3,11 @@
 <p align="center">逐处审阅 AI 对中文文稿的改动，保留原文和每一次取舍。</p>
 
 <p align="center">
-  <a href="#快速上手">快速上手</a>
+  <strong><a href="#安装">安装</a></strong>
+  · <a href="#快速上手">快速上手</a>
   · <a href="#从源码运行">从源码运行</a>
   · <a href="docs/workbench.md">工作台手册</a>
+  · <a href="https://github.com/timnie/acceptance-desk-public/releases">发行说明</a>
   · <a href="README.en.md">English</a>
 </p>
 
@@ -23,6 +25,34 @@
 - **原稿和改稿并排看。** 在段落上下文中核对增删和改写，检查数字、引文和措辞的变化。
 - **逐处作决定。** 采用改句、保留原句或自行编辑。可撤销、记录意见、保存进度。
 - **把意见带到下一轮。** 导出定稿、审阅记录和修改意见。桌面预览版也可以在预览发送内容后，将文稿和意见交给你选择的模型。
+
+## 安装
+
+### macOS · Apple 芯片
+
+使用 [Homebrew](https://brew.sh/) 安装。
+
+```bash
+brew tap timnie/acceptance-desk-public https://github.com/timnie/acceptance-desk-public.git
+brew install --cask timnie/acceptance-desk-public/acceptance-desk
+```
+
+也可[直接下载构建 10（ZIP）](https://github.com/timnie/acceptance-desk-public/releases/download/macos-beta-build-10-zip/Acceptance-Desk-macOS-arm64-Build-10.zip)，解压后把 App 拖入「应用程序」。预览版尚未公证，首次打开可能需要在[「隐私与安全性」](https://support.apple.com/zh-cn/102445)中单独确认。
+
+### Windows · x64
+
+使用 [Scoop](https://scoop.sh/) 安装。
+
+```powershell
+scoop bucket add acceptance-desk https://github.com/timnie/acceptance-desk-public.git
+scoop install acceptance-desk/acceptance-desk
+```
+
+也可[直接下载预览安装器（EXE）](https://github.com/timnie/acceptance-desk-public/releases/download/windows-beta-20261125-layout-fix/Acceptance-Desk-Windows-x64-Setup-2026-11-25-layout-fix.exe)。当前 Windows 预览安装器未经签名。
+
+### Linux
+
+[从源码启动浏览器工作台](#从源码运行)，或使用[命令行](#命令行)。
 
 ## 快速上手
 
@@ -59,8 +89,12 @@ uv run --locked acceptance-desk examples/original.txt examples/revised.txt --bri
 
 ## 反馈与开发
 
-反馈安装或审阅问题时，请附上平台、构建版本和用虚构文稿复现的步骤。
+在 [GitHub Issues](https://github.com/timnie/acceptance-desk-public/issues) 反馈问题时，请附上平台、构建版本和用虚构文稿复现的步骤。贡献代码请见[贡献指南](CONTRIBUTING.md)。
 
 [报告结构](docs/schema.md) · [导出格式](docs/export.md) · [本地 MCP 接入](docs/mcp.md) · [持续集成与打包](docs/ci.md) · [文档索引](docs/README.md)
 
 运行 `uv run --locked --group dev --extra web pytest -q` 执行开发测试。CI 覆盖 Python 3.10 和 3.12。可选的离线语义功能见[模型配置](experiments/step1_models.md)。
+
+## 许可证
+
+项目源码采用 [MIT 许可证](LICENSE)。
