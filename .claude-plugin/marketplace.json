@@ -1,0 +1,7 @@
+{
+  "name": "acceptance-desk",
+  "owner": {"name": "acceptance-desk contributors"},
+  "plugins": [
+    {"name": "acceptance-desk", "source": "./", "description": "AI 改稿验收台"}
+  ]
+}

@@ -1,0 +1,64 @@
+# ===== 论文原稿、改稿、标注：只用网盘共享，绝不提交 =====
+data/raw/
+data/revised/
+data/labels/
+data/private/
+*.docx
+*.doc
+*.pdf
+# 真实测试集里含原文句子，只提交生成脚本，不提交数据
+data/test/*
+!data/test/.gitkeep
+
+# ===== 凭据与密钥 =====
+.env
+.env.*
+*.pem
+*.key
+secrets.*
+credentials*
+.streamlit/secrets.toml
+.claude/settings.local.json
+
+# ===== 模型缓存与大模型权重（models/ 里只提交训练好的小分类器） =====
+.cache/
+hf_cache/
+.hf_cache/
+huggingface/
+models/cache/
+models/pretrained/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+
+# ===== 虚拟环境 =====
+.venv/
+venv/
+env/
+.python-version
+
+# ===== Python 构建与缓存 =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ===== 系统与编辑器 =====
+.DS_Store
+.idea/
+.vscode/
+
+# 本地模型目录（Step 1）
+.model-cache/
+
+# 本地预览配置（各会话自建，不提交）
+.claude/launch.json
+.claude/worktrees/
+
+# NiceGUI 的本机存储（工作台默认放在用户主目录；直接运行时可能出现在当前目录）
+.nicegui/

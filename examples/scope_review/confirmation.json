@@ -1,0 +1,53 @@
+[
+  {
+    "id": "confirm-sufficient",
+    "original": "室内计时试验记录了北馆的三组样本。\n\n在北馆的室内试验中，新流程的排队耗时低于旧流程。",
+    "revised": "室内计时试验新增南馆的三组样本。北馆和南馆各自都记录了新流程耗时低于旧流程。\n\n在北馆和南馆的室内试验中，新流程的排队耗时低于旧流程。",
+    "intent": "可以用新增的南馆计时结果扩大室内结论。",
+    "expected": {
+      "u001": [
+        "preserved",
+        "not_applicable"
+      ],
+      "u002": [
+        "preserved",
+        "not_applicable"
+      ],
+      "u003": [
+        "widened",
+        "sufficient"
+      ]
+    },
+    "manual_question": "新稿是否应同时覆盖北馆、南馆的室内试验？请核对新增的南馆比较结果。"
+  },
+  {
+    "id": "confirm-disjoint",
+    "original": "本文记录了青少年田径队的数次训练。在青少年田径队中，训练日志的负担较轻。",
+    "revised": "本文记录了青少年田径队的数次训练。在成年游泳队中，训练日志的负担较轻。",
+    "intent": "讨论对象可以调整，有更换时要提供对应证据。",
+    "expected": {
+      "u001": [
+        "uncertain",
+        "uncertain"
+      ]
+    },
+    "manual_question": "青少年田径队和成年游泳队是两个不同对象，目前只有前者记录。你要保留原对象，还是另给游泳队的材料？"
+  },
+  {
+    "id": "confirm-preserved",
+    "original": "场馆仅拿到了夏季的现场记录。\n\n就夏季而言，该提醒能减少漏打卡。附录说明日志口径。",
+    "revised": "场馆仅拿到了夏季的现场记录。\n\n下面的判断只谈夏季。该提醒能减少漏打卡。附录说明日志口径。",
+    "intent": "允许调整行文，保留夏季限定。",
+    "expected": {
+      "u001": [
+        "preserved",
+        "not_applicable"
+      ],
+      "u002": [
+        "preserved",
+        "not_applicable"
+      ]
+    },
+    "manual_question": "夏季限定已移到下一句之前，仍约束提醒效果。请核对是否清楚。"
+  }
+]

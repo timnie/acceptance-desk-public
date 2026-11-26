@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python ${{ matrix.python }} · tests and package
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10', '3.12']
+    env:
+      HF_HUB_OFFLINE: '1'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: '0.11.15'
+          python-version: ${{ matrix.python }}
+          enable-cache: true
+      - name: Install locked test and workbench dependencies
+        run: uv sync --locked --group dev --extra web --extra mcp
+      - name: Run tests (local model cases skip without weights)
+        env:
+          ACCEPTANCE_DESK_MODEL_CACHE: ${{ runner.temp }}/acceptance-models-unavailable
+        run: uv run --locked --group dev --extra web --extra mcp pytest -q -ra
+      - name: Build source and wheel distributions
+        run: uv build
+      - name: Install wheel in a clean environment
+        run: |
+          uv venv --python '${{ matrix.python }}' "$RUNNER_TEMP/wheel-venv"
+          for wheel in dist/*.whl; do
+            uv pip install --python "$RUNNER_TEMP/wheel-venv/bin/python" "${wheel}[mcp,web]"
+          done
+      - name: Verify installed resources, CLI and example report
+        run: >-
+          "$RUNNER_TEMP/wheel-venv/bin/python"
+          .github/scripts/verify_install.py "$GITHUB_WORKSPACE"
+      - name: Verify installed MCP stdio current and legacy protocols
+        run: '"$RUNNER_TEMP/wheel-venv/bin/python" .github/scripts/verify_mcp.py'

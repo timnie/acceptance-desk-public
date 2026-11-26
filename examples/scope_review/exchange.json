@@ -1,0 +1,80 @@
+{
+  "request": {
+    "request_id": "d313c459d7798efecdccc0ee1e1ae9c651f5df60a168a6cd520c8d1cb55a662d",
+    "skill_version": "scope-review/2",
+    "author_intents": [
+      {
+        "id": "author-1",
+        "text": "保留访谈能够支撑的适用范围。"
+      }
+    ],
+    "original": [
+      {
+        "id": "o1",
+        "text": "研究只访谈了三家试点酒店的夜班员工。访谈表明，在三家试点酒店，交接延迟是客诉回复慢的原因之一。"
+      }
+    ],
+    "revised": [
+      {
+        "id": "r1",
+        "text": "研究只访谈了三家试点酒店的夜班员工。访谈表明，在所有酒店，交接延迟是客诉回复慢的原因之一。"
+      }
+    ],
+    "units": [
+      {
+        "unit_id": "u001",
+        "changes": [
+          {
+            "id": "c001",
+            "original": {
+              "start": 18,
+              "end": 47,
+              "paragraph": "o1",
+              "text": "访谈表明，在三家试点酒店，交接延迟是客诉回复慢的原因之一。"
+            },
+            "revised": {
+              "start": 18,
+              "end": 45,
+              "paragraph": "r1",
+              "text": "访谈表明，在所有酒店，交接延迟是客诉回复慢的原因之一。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "response": {
+    "request_id": "d313c459d7798efecdccc0ee1e1ae9c651f5df60a168a6cd520c8d1cb55a662d",
+    "skill_version": "scope-review/2",
+    "findings": [
+      {
+        "unit_id": "u001",
+        "kind": "widened",
+        "support": "insufficient",
+        "intent_ids": [
+          "author-1"
+        ],
+        "evidence": [
+          {
+            "paragraph": "o1",
+            "quote": "访谈表明，在三家试点酒店，交接延迟是客诉回复慢的原因之一。",
+            "role": "claim"
+          },
+          {
+            "paragraph": "r1",
+            "quote": "访谈表明，在所有酒店，交接延迟是客诉回复慢的原因之一。",
+            "role": "claim"
+          },
+          {
+            "paragraph": "r1",
+            "quote": "研究只访谈了三家试点酒店的夜班员工。",
+            "role": "support"
+          }
+        ],
+        "effect": "原稿的试点酒店结论被推广到所有酒店。",
+        "question": "本轮把三家试点酒店扩大成所有酒店。访谈仅覆盖试点酒店。要恢复限定，还是有覆盖其他酒店的材料？",
+        "missing": "其他酒店的访谈或有代表性的观测数据。"
+      }
+    ]
+  }
+}

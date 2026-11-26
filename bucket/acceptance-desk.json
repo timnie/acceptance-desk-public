@@ -1,0 +1,36 @@
+{
+    "version": "2026.11.25",
+    "description": "Review AI edits to Chinese manuscripts",
+    "homepage": "https://github.com/timnie/acceptance-desk-public",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/timnie/acceptance-desk-public/releases/download/windows-beta-20261125-layout-fix/Acceptance-Desk-Windows-x64-Setup-2026-11-25-layout-fix.exe",
+            "hash": "8f40eef9fcd2f1d2fb4532beedcd90f8a14385e6d7474927e131d258df61c626"
+        }
+    },
+    "installer": {
+        "args": [
+            "/VERYSILENT",
+            "/SUPPRESSMSGBOXES",
+            "/NORESTART",
+            "/NOICONS",
+            "/DIR=\"$dir\""
+        ]
+    },
+    "uninstaller": {
+        "file": "unins000.exe",
+        "args": [
+            "/VERYSILENT",
+            "/SUPPRESSMSGBOXES",
+            "/NORESTART"
+        ],
+        "keep": true
+    },
+    "shortcuts": [
+        [
+            "AcceptanceDesk.exe",
+            "Acceptance Desk"
+        ]
+    ],
+    "license": "MIT"
+}

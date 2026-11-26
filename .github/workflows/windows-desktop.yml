@@ -1,0 +1,103 @@
+name: Windows desktop
+
+on:
+  push:
+    paths:
+      - '.gitattributes'
+      - '.github/workflows/windows-desktop.yml'
+      - 'desktop/**'
+      - 'workbench/**'
+      - 'acceptance_desk/**'
+      - 'review_ui/**'
+      - 'tools/check_windows_desktop.py'
+      - 'tools/check_prose_editor.py'
+      - 'tests/**'
+      - 'pyproject.toml'
+      - 'uv.lock'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-desktop-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    name: Build and verify the Windows x64 installer
+    runs-on: windows-2025
+    timeout-minutes: 30
+    env:
+      PYTHONUTF8: '1'
+      HF_HUB_OFFLINE: '1'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: '0.11.15'
+          python-version: '3.12'
+          enable-cache: true
+      - name: Build the frozen application
+        run: |
+          uv sync --locked --no-dev --extra web --group desktop
+          .venv\Scripts\python.exe -m PyInstaller --noconfirm --workpath build/desktop/frozen desktop/workbench.spec
+      - name: Build the setup executable
+        run: |
+          $bootstrapper = 'build\desktop\MicrosoftEdgeWebview2Setup.exe'
+          Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $bootstrapper
+          $signature = Get-AuthenticodeSignature $bootstrapper
+          if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'O=Microsoft Corporation') {
+            throw 'Microsoft WebView2 bootstrapper signature verification failed'
+          }
+          $compiler = Join-Path "${env:ProgramFiles(x86)}" 'Inno Setup 6\ISCC.exe'
+          if (-not (Test-Path $compiler)) {
+            throw 'Inno Setup 6 is missing from the Windows build image'
+          }
+          & $compiler desktop\windows_installer.iss
+      - name: Run Windows tests
+        run: |
+          uv sync --locked --extra web --extra mcp --group desktop --group desktop-test
+          .venv\Scripts\python.exe -m pytest -q -ra
+      - name: Upload the preview installer
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: Acceptance-Desk-Windows-x64-Setup
+          path: dist/windows-installer/Acceptance-Desk-Windows-x64-Setup.exe
+          if-no-files-found: error
+          retention-days: 30
+      - name: Verify the installed desktop app
+        run: |
+          # WebView2 ignores environment-supplied debugging flags in elevated apps.
+          # Exercise setup and the workbench as an ordinary Windows user.
+          $name = 'AcceptanceDeskTest'
+          $password = ConvertTo-SecureString ('dR4!' + [Guid]::NewGuid().ToString('N')) -AsPlainText -Force
+          $user = New-LocalUser -Name $name -Password $password
+          try {
+            $users = [System.Security.Principal.SecurityIdentifier]::new('S-1-5-32-545')
+            if (-not (Get-LocalGroupMember -SID $users | Where-Object SID -eq $user.SID)) {
+              Add-LocalGroupMember -SID $users -Member $user
+            }
+            $stdout = Join-Path $env:RUNNER_TEMP 'acceptance-desktop.stdout'
+            $stderr = Join-Path $env:RUNNER_TEMP 'acceptance-desktop.stderr'
+            $node = (Get-Command node.exe).Source
+            $startup = @{
+              FilePath = "$pwd\.venv\Scripts\python.exe"
+              Credential = [PSCredential]::new(".\$name", $password)
+              WorkingDirectory = "$pwd"
+              LoadUserProfile = $true
+              RedirectStandardOutput = $stdout
+              RedirectStandardError = $stderr
+              ArgumentList = @('-X', 'utf8', 'tools/check_windows_desktop.py',
+                'dist/windows-installer/Acceptance-Desk-Windows-x64-Setup.exe', '--node', ('"' + $node + '"'))
+            }
+            $test = Start-Process @startup -PassThru -Wait
+            Get-Content -Encoding UTF8 $stdout, $stderr
+            exit $test.ExitCode
+          } finally {
+            Remove-LocalUser -Name $name
+          }

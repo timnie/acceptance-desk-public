@@ -1,0 +1,5 @@
+# Browser files are compiled from Python; review the source in workbench/browser/.
+workbench/assets/prose/*.js linguist-generated=true text eol=lf
+workbench/browser/*.py text eol=lf
+workbench/history_policy.py text eol=lf
+acceptance_desk/resources/lexicon.toml text eol=lf

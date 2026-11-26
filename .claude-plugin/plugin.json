@@ -1,0 +1,6 @@
+{
+  "name": "acceptance-desk",
+  "version": "0.0.1",
+  "description": "独立检查相邻两版中文稿，供作者逐条验收",
+  "repository": "https://github.com/timnie/acceptance-desk-public"
+}

@@ -1,0 +1,14 @@
+{
+  "compiler": "Transcrypt 3.9.5",
+  "sources": {
+    "workbench/browser/prose_history.py": "e4ecfc6b558b908e1abf82cc7c6df615cb1012166d8b645530bf475b4f136e21",
+    "workbench/browser/cm.py": "613a5ef6f15852f3a160929be3baabc6c567363298be8afa6f01b8339b788ba4",
+    "workbench/history_policy.py": "12c950688b0fb6f59970ac773d3c517695676337b565f7ffb6e86a3ca0df4ecd"
+  },
+  "assets": {
+    "copy.js": "26649c788e7828dff80a063099bda7a87a41c5e034190e2e83baaa51e426dbb7",
+    "history_policy.js": "51e5a55be11e59cb9ad52f5ce38199e7c9c10749ff8e559ed9d1fe294fe28c28",
+    "org.transcrypt.__runtime__.js": "907648c950ec758a8c8934246fe375ca33bd77955d126441fcbee04fa63168a4",
+    "prose_history.js": "bd0ff9a7c8e9b9ca31d906b316eac590f47132ecef644400067c463b4662466d"
+  }
+}
